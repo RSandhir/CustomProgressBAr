@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
 
     <TextView
         android:id="@+id/tv_id"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Id list is empty."
+        android:layout_marginHorizontal="20sp"
         android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tv_dis"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="The Discription list is empty."
+        android:layout_marginHorizontal="20sp"
         android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tv_amt"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20sp"
         android:text="The ammount list is empty."
         android:textSize="20dp" />
 

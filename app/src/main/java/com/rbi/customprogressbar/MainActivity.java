@@ -2,7 +2,6 @@ package com.rbi.customprogressbar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +9,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     ProgressBar progressBar;
     DatabaseHelper mydb;
 
@@ -38,27 +37,26 @@ public class MainActivity extends AppCompatActivity {
         e2 = findViewById(R.id.e2);
         b1 = findViewById(R.id.b1);
         b2 = findViewById(R.id.b2);
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        b1.setOnClickListener(this);
+        b2.setOnClickListener(this);
+    }
 
-                int spnd_amt=Integer.parseInt(e2.getText().toString());
-                current_spnd+=spnd_amt;
-                float progress_percent = (((float) current_spnd) / totalPmoney)*100;
-                progressBar.setProgress((int) progress_percent);
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.b1) {
+            int spnd_amt = Integer.parseInt(e2.getText().toString());
+            current_spnd += spnd_amt;
+            float progress_percent = (((float) current_spnd) / totalPmoney) * 100;
+            progressBar.setProgress((int) progress_percent);
 
-                boolean isInserted = mydb.insertdata(e1.getText().toString(), spnd_amt);
-                if (isInserted = true)
-                    Toast.makeText(MainActivity.this, "Inserted"+progress_percent, Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(MainActivity.this, "Not Inserted", Toast.LENGTH_LONG).show();
-            }
-        });
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                /*Cursor result = mydb.getAllData();
+            boolean isInserted = mydb.insertdata(e1.getText().toString(), spnd_amt);
+            if (isInserted = true)
+                Toast.makeText(MainActivity.this, "Inserted" + progress_percent, Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(MainActivity.this, "Not Inserted", Toast.LENGTH_LONG).show();
+        }
+        if (v.getId() == R.id.b2) {
+             /*Cursor result = mydb.getAllData();
                 if (result.getCount() == 0) {
                     //show message
                     showMessage("Error", "Nothing Found");
@@ -70,19 +68,18 @@ public class MainActivity extends AppCompatActivity {
                     buffer.append("Spendings:" + result.getString(2) + "\n\n");
                 }
                 showMessage("Data", buffer.toString());*/
-                Intent intent = new Intent(getApplicationContext(), SpendingsListView.class);
-                startActivity(intent);
-            }
-        });
+            Intent intent = new Intent(this, SpendingsListView.class);
+            startActivity(intent);
+        }
     }
 
-    public void showMessage(String title, String Message) {
+    /*public void showMessage(String title, String Message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(title);
         builder.setMessage(Message);
         builder.show();
-    }
+    }*/
 
 }
 

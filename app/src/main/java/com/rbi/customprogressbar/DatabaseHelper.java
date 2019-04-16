@@ -10,14 +10,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String Database_Name = "FinanceDb.db";
     public static final String Table_Name = "Spendings";
     public static final String Col1="Description";
-    public static final String Col2="Spendings";
+    public static final String Col2 = "Amount";
     public DatabaseHelper(Context context) {
         super(context,Database_Name, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql_cmd = "CREATE TABLE " + Table_Name + "(Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Description TEXT,Spendings INTEGER)";
+        String sql_cmd = "CREATE TABLE " + Table_Name + "(Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Description TEXT,Amount INTEGER)";
         sqLiteDatabase.execSQL(sql_cmd);
 
     }
@@ -27,19 +27,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +Table_Name);
         onCreate(sqLiteDatabase);
     }
-    public boolean insertdata(String Description,int Spendings){
+
+    public boolean insertdata(String Description, int Amount) {
         SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
         ContentValues cv=new ContentValues();
         cv.put(Col1,Description);
-        cv.put(Col2,Spendings);
+        cv.put(Col2, Amount);
         long result =sqLiteDatabase.insert(Table_Name,null,cv);
+        sqLiteDatabase.close();
         if(result==-1)
             return false;
-        else
+        else {
             return true;
+        }
     }
     public Cursor getAllData(){
-        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Cursor result=sqLiteDatabase.rawQuery("select * from " +Table_Name,null);
         return result;
     }

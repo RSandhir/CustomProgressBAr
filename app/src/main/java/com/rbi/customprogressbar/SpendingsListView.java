@@ -12,10 +12,10 @@ public class SpendingsListView extends AppCompatActivity {
 
     DatabaseHelper databaseHelper = new DatabaseHelper(this);
     SQLiteDatabase db;
+    ListView lv;
     private ArrayList<String> Id = new ArrayList<String>();
     private ArrayList<String> Description = new ArrayList<String>();
     private ArrayList<String> Amount = new ArrayList<String>();
-    ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +31,15 @@ public class SpendingsListView extends AppCompatActivity {
     }
 
     private void displayData() {
-        db = databaseHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM  Spendings", null);
+        Cursor cursor = databaseHelper.getAllData();
         Id.clear();
         Description.clear();
         Amount.clear();
-        if (cursor.moveToFirst()) {
-            do {
-                Id.add(cursor.getString(cursor.getColumnIndex("Id")));
+        while (cursor.moveToNext()) {
+            String fetch_id = cursor.getString(cursor.getColumnIndex("Id"));
+            Id.add(fetch_id);
                 Description.add(cursor.getString(cursor.getColumnIndex("Description")));
                 Amount.add(cursor.getString(cursor.getColumnIndex("Amount")));
-            } while (cursor.moveToNext());
         }
         CustomAdapter ca = new CustomAdapter(SpendingsListView.this, Id, Description, Amount);
         lv.setAdapter(ca);
