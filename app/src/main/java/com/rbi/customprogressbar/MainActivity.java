@@ -1,6 +1,6 @@
 package com.rbi.customprogressbar;
 
-import android.database.Cursor;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Cursor result = mydb.getAllData();
+                /*Cursor result = mydb.getAllData();
                 if (result.getCount() == 0) {
                     //show message
                     showMessage("Error", "Nothing Found");
@@ -69,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
                     buffer.append("Description:" + result.getString(1) + "\n");
                     buffer.append("Spendings:" + result.getString(2) + "\n\n");
                 }
-                showMessage("Data", buffer.toString());
+                showMessage("Data", buffer.toString());*/
+                Intent intent = new Intent(getApplicationContext(), SpendingsListView.class);
+                startActivity(intent);
             }
         });
     }
