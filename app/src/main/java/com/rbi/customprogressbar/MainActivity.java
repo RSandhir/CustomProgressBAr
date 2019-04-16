@@ -1,9 +1,9 @@
 package com.rbi.customprogressbar;
 
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 StringBuffer buffer = new StringBuffer();
                 while (result.moveToNext()) {
-                    buffer.append("Description:" + result.getString(0) + "\n");
-                    buffer.append("Spendings:" + result.getString(1) + "\n\n");
+                    buffer.append("Description:" + result.getString(1) + "\n");
+                    buffer.append("Spendings:" + result.getString(2) + "\n\n");
                 }
                 showMessage("Data", buffer.toString());
             }

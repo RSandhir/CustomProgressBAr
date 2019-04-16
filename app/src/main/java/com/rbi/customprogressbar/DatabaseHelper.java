@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final String Database_Name="Values.db";
-    public static final String Table_Name="Values_Table";
+    public static final String Database_Name = "FinanceDb.db";
+    public static final String Table_Name = "Spendings";
     public static final String Col1="Description";
     public static final String Col2="Spendings";
     public DatabaseHelper(Context context) {
@@ -17,7 +17,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("create table " +Table_Name+"(Description TEXT ,Spendings INTEGER)");
+        String sql_cmd = "CREATE TABLE " + Table_Name + "(_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Description TEXT,Spendings INTEGER)";
+        sqLiteDatabase.execSQL(sql_cmd);
 
     }
 
