@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             current_spnd += spnd_amt;
             float progress_percent = (((float) current_spnd) / totalPmoney) * 100;
             progressBar.setProgress((int) progress_percent);
-            createNotification(current_spnd);
+            createNotification((int) progress_percent);
 
             boolean isInserted = mydb.insertdata(e1.getText().toString(), spnd_amt);
             if (isInserted = true)
@@ -88,18 +88,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void createNotification(int current_spnd) {
+    private void createNotification(int progress) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         int notifyId = 1;
-        this.current_spnd = current_spnd;
+        this.current_spnd = progress;
 
         Notification notification = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             notification = new Notification.Builder(MainActivity.this, channelId)
                     .setContentTitle("Spendings")
-                    .setContentText("You've received new messages!")
+                    .setContentText(progress + "%")
                     .setSmallIcon(R.drawable.ic_notification)
-                    .setProgress(totalPmoney, current_spnd, false)
+                    .setProgress(totalPmoney, progress, false)
                     .setChannelId(channelId)
                     .setOngoing(true)
                     .build();
