@@ -5,10 +5,12 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int current_spnd;
     int totalPmoney;
     String channelId = "notif_channel_id";
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         createNotificationChannel();
 
-
+        sharedPreferences = getSharedPreferences("Prefs", Context.MODE_PRIVATE);
+        current_spnd = sharedPreferences.getInt("curr_spend", 0);
+        float progress_percent = (((float) current_spnd) / totalPmoney) * 100;
+        Log.d("progressView", progress_percent + " ," + totalPmoney + " ," + current_spnd);
+        progressBar.setProgress((int) progress_percent);
 
 
         mydb = new DatabaseHelper(this);
@@ -108,5 +115,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         notificationManager.notify(notifyId, notification);
     }
 
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }
 
