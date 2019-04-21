@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -17,16 +20,33 @@ public class SpendingsListView extends AppCompatActivity {
     private ArrayList<String> Id = new ArrayList<String>();
     private ArrayList<String> Description = new ArrayList<String>();
     private ArrayList<String> Amount = new ArrayList<String>();
+    ArrayList<Boolean> arrChecked;
+    private String[] titlesArray;
+    private Button view_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spendings_list_view);
         lv = findViewById(R.id.lv);
+        view_btn = findViewById(R.id.view_btn);
     }
 
     @Override
     protected void onResume() {
+        view_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] arrTempList = new String[arrChecked.size()];
+                for (int i = 0; i < Id.size(); i++) {
+                    if (arrChecked.get(i) == true) {
+                        arrTempList[i] = Id.get(i);
+                    }
+                }
+                databaseHelper.deleteSelected(arrTempList);
+                displayData();
+            }
+        });
         displayData();
         super.onResume();
     }
@@ -51,8 +71,13 @@ public class SpendingsListView extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("curr_spend", sum);
         editor.commit();
-        CustomAdapter ca = new CustomAdapter(SpendingsListView.this, Id, Description, Amount);
+        arrChecked = new ArrayList<Boolean>();
+        for (int i = 0; i < Id.size(); i++) {
+            arrChecked.add(false);
+        }
+        CustomAdapter ca = new CustomAdapter(SpendingsListView.this, Id, Description, Amount, arrChecked);
         lv.setAdapter(ca);
+        Log.d("CheckArr", "" + arrChecked);
         cursor.close();
     }
 }

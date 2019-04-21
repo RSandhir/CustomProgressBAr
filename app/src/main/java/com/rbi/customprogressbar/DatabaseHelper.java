@@ -35,15 +35,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(Col2, Amount);
         long result =sqLiteDatabase.insert(Table_Name,null,cv);
         sqLiteDatabase.close();
-        if(result==-1)
-            return false;
-        else {
-            return true;
-        }
+        return result != -1;
     }
     public Cursor getAllData(){
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         Cursor result=sqLiteDatabase.rawQuery("select * from " +Table_Name,null);
         return result;
+    }
+
+    public void deleteSelected(String[] arrTempList) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        for (int i = 0; i < arrTempList.length; i++) {
+            String exec_sql = "DELETE FROM " + Table_Name + " WHERE Id=" + arrTempList[i];
+            sqLiteDatabase.execSQL(exec_sql);
+        }
     }
 }
